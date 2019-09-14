@@ -13,12 +13,17 @@ export const bind = directive((context, name, event) => part => {
     // Always set the prop value based on the passed in value
     let value
     if (radio) {
+        // radios are always mutually exclusive
         value = context[name] === el.value
     } else if (checkbox) {
         value = arrayBinding
-            ? context[name].includes(el.value)
-            : context[name] === el.value
+            ? // arrays hold multiple choices
+              context[name].includes(el.value)
+            : // otherwise checkboxes are mutually exclusive
+              context[name] === el.value
     } else {
+        // text/number inputs are always just values, as typed
+        // by the user and passed in with .value
         value = context[name]
     }
     part.setValue(value)
