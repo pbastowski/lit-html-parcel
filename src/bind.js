@@ -33,7 +33,7 @@ export const bind = directive((context, name, event) => part => {
         eventPart.setValue(e => {
             context[name] = checkbox
                 ? arrayBinding
-                    ? (el.checked && [el.value, ...context[name]]) ||
+                    ? (el.checked && [...context[name], el.value]) ||
                       context[name].filter(v => v !== el.value)
                     : (el.checked && el.value) || undefined
                 : e.path[0][_value]
