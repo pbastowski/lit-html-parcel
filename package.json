@@ -1,0 +1,47 @@
+{
+    "name": "lit-02",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.html",
+    "scripts": {
+        "start": "parcel index.html",
+        "build": "parcel build index.html"
+    },
+    "dependencies": {
+        "hyperactiv": "^0.8.1",
+        "lit-element": "^2.2.1",
+        "lit-html": "^1.1.2"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.0.0-0",
+        "@babel/preset-react": "^7.0.0",
+        "babel-plugin-transform-class-properties": "^6.24.1",
+        "parcel-bundler": "^1.12.3",
+        "parcel-plugin-purgecss": "^2.1.2"
+    },
+    "browserslist": [
+        "Chrome >= 71",
+        "Firefox >= 64",
+        "Opera >= 57",
+        "Safari >= 12"
+    ],
+    "babel": {
+        "presets": [
+            "@babel/preset-env"
+        ],
+        "plugins": [
+            [
+                "transform-class-properties"
+            ]
+        ]
+    },
+    "purgecss": {
+        "content": [
+            "**/*.html",
+            "**/*.js"
+        ],
+        "whitelist": []
+    },
+    "keywords": [],
+    "alias": {}
+}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+        />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>lit-01</title>
+    </head>
+    <body>
+        <lit-02 value="testing" onclick="clickHandler(event)"></lit-02>
+        <script>
+            console.clear()
+
+            function clickHandler(e) {
+                console.log('CLICK:', e)
+            }
+
+            function testHandler(e) {
+                console.log('TEST:', e)
+            }
+
+            window.onload = () => {
+                const el = document.querySelector('lit-02')
+                el.addEventListener('test', testHandler)
+            }
+        </script>
+        <script src="src/index.js"></script>
+    </body>
+</html>
