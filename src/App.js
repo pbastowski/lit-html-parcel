@@ -2,7 +2,7 @@ import { html } from 'lit-html'
 import { observe } from 'hyperactiv/dist'
 import bind from './bind'
 
-const state = observe({ text: 'World', chk: '123', rad: 'c' })
+const state = observe({ text: 'World', chk: undefined, chk2: '3', rad: 'c' })
 
 const style = html`
     <style>
@@ -19,8 +19,8 @@ export default () => html`
     <br />
     <input type="checkbox" .checked=${bind(state, 'chk')} value="111" />
     <input type="checkbox" .checked=${bind(state, 'chk')} value="2222" />
-    <input type="checkbox" .checked=${bind(state, 'chk')} value="3" />
-    <input type="checkbox" .checked=${bind(state, 'chk')} value="444" />
+    <input type="checkbox" .checked=${bind(state, 'chk2')} value="3" />
+    <input type="checkbox" .checked=${bind(state, 'chk2')} value="444" />
     <br />
     <input type="radio" .checked=${bind(state, 'rad')} value="a" />
     <input type="radio" .checked=${bind(state, 'rad')} value="b" />

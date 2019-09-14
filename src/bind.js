@@ -9,9 +9,14 @@ export const bind = directive((context, name, event) => part => {
     const arrayBinding = Array.isArray(context[name])
 
     let value
-    if (radio) value = context[name] === el.value
-    else if (checkbox) value = context[name] === el.value ? el.value : undefined
-    else value = context[name]
+    if (radio) {
+        value = context[name] === el.value
+    } else if (checkbox) {
+        value = context[name] === el.value
+        // console.log(el.type, name, [context[name], el.value, value])
+    } else {
+        value = context[name]
+    }
     part.setValue(value)
 
     if (!cache.has(el)) {
