@@ -6,14 +6,17 @@ export const bind = directive((context, name, event) => part => {
     const el = part.committer.element
     const radio = el.type === 'radio'
     const checkbox = el.type === 'checkbox'
+
+    // Checkboxes can be bound to an array for a multiple choice result
     const arrayBinding = Array.isArray(context[name])
 
     let value
     if (radio) {
         value = context[name] === el.value
     } else if (checkbox) {
-        value = context[name] === el.value
-        // console.log(el.type, name, [context[name], el.value, value])
+        value = arrayBinding
+            ? context[name].includes(el.value)
+            : context[name] === el.value
     } else {
         value = context[name]
     }
@@ -23,16 +26,18 @@ export const bind = directive((context, name, event) => part => {
         let _event = event || (radio || checkbox ? 'change' : 'input')
         let _value = 'value'
 
-        const eventPart = new EventPart(el, _event, part.options)
-
         cache.set(el, _event)
 
-        eventPart.setValue(
-            e =>
-                (context[name] = checkbox
-                    ? (el.checked && el.value) || undefined
-                    : e.path[0][_value])
-        )
+        const eventPart = new EventPart(el, _event, part.options)
+
+        eventPart.setValue(e => {
+            context[name] = checkbox
+                ? arrayBinding
+                    ? (el.checked && [el.value, ...context[name]]) ||
+                      context[name].filter(v => v !== el.value)
+                    : (el.checked && el.value) || undefined
+                : e.path[0][_value]
+        })
         eventPart.commit()
     }
 })
