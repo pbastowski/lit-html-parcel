@@ -10,6 +10,7 @@ export const bind = directive((context, name, event) => part => {
     // Checkboxes can be bound to an array for a multiple choice result
     const arrayBinding = Array.isArray(context[name])
 
+    // Always set the prop value based on the passed in value
     let value
     if (radio) {
         value = context[name] === el.value
@@ -22,6 +23,7 @@ export const bind = directive((context, name, event) => part => {
     }
     part.setValue(value)
 
+    // Add an event handler to set the value of the binding
     if (!cache.has(el)) {
         let _event = event || (radio || checkbox ? 'change' : 'input')
         let _value = 'value'
