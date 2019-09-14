@@ -30,7 +30,8 @@ export const bind = directive((context, name, event) => part => {
 
     // Add an event handler to set the value of the binding
     if (!cache.has(el)) {
-        let _event = event || (radio || checkbox ? 'change' : 'input')
+        let _event =
+            event || ((radio && 'click') || (checkbox && 'change') || 'input')
         let _value = 'value'
 
         cache.set(el, _event)
@@ -38,12 +39,19 @@ export const bind = directive((context, name, event) => part => {
         const eventPart = new EventPart(el, _event, part.options)
 
         eventPart.setValue(e => {
-            context[name] = checkbox
-                ? arrayBinding
-                    ? (el.checked && [...context[name], el.value]) ||
-                      context[name].filter(v => v !== el.value)
-                    : (el.checked && el.value) || undefined
-                : e.path[0][_value]
+            if (radio) {
+                if (el.checked && context[name] === el.value) {
+                    el.checked = false
+                    context[name] = undefined
+                } else context[name] = el.value
+            } else {
+                context[name] = checkbox
+                    ? arrayBinding
+                        ? (el.checked && [...context[name], el.value]) ||
+                          context[name].filter(v => v !== el.value)
+                        : (el.checked && el.value) || undefined
+                    : el[_value] //e.path[0][_value]
+            }
         })
         eventPart.commit()
     }
