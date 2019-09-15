@@ -24,10 +24,15 @@ export default () => html`
     <input .value=${bind(state, 'text')} />
     <br />
     <p>Chose as many as you like:</p>
-    <input type="checkbox" .checked=${bind(state, 'chk3')} value="a" />
-    <input type="checkbox" .checked=${bind(state, 'chk3')} value="b" />
-    <input type="checkbox" .checked=${bind(state, 'chk3')} value="c" />
-    <input type="checkbox" .checked=${bind(state, 'chk3')} value="d" />
+    ${['a', 'b', 'c', 'd'].map(
+        s => html`
+            <input
+                type="checkbox"
+                value=${s}
+                .checked=${bind(state, 'chk3', { value: s })}
+            />
+        `
+    )}
     <br />
     <p>checkboxes with the same binding are mutually exclusive:</p>
 
@@ -37,10 +42,23 @@ export default () => html`
     <input type="checkbox" .checked=${bind(state, 'chk2')} value="444" />
     <br />
     <p>All radios with the same binding are mutually exclusive:</p>
-    <input type="radio" .checked=${bind(state, 'rad')} value="a" />
-    <input type="radio" .checked=${bind(state, 'rad')} value="b" />
-    <input type="radio" .checked=${bind(state, 'rad')} value="c" />
-    <input type="radio" .checked=${bind(state, 'rad')} value="d" />
+    ${['a', 'b', 'c', 'd'].map(
+        s => html`
+            <input
+                type="radio"
+                .checked=${bind(state, 'rad', { allowUnset: true })}
+                value=${s}
+            />
+        `
+    )}
     <hr />
     <pre>${JSON.stringify(state, null, 4)}</pre>
 `
+// <input type="radio" .checked=${bind(state, 'rad')} value="b" />
+// <input type="radio" .checked=${bind(state, 'rad')} value="c" />
+// <input type="radio" .checked=${bind(state, 'rad')} value="d" />
+
+// <input type="checkbox" .checked=${bind(state, 'chk3')} value="a" />
+// <input type="checkbox" .checked=${bind(state, 'chk3')} value="b" />
+// <input type="checkbox" .checked=${bind(state, 'chk3')} value="c" />
+// <input type="checkbox" .checked=${bind(state, 'chk3')} value="d" />
