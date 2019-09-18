@@ -44,5 +44,7 @@
         "whitelist": []
     },
     "keywords": [],
-    "alias": {}
+    "alias": {
+        "store": "hyperactiv/src"
+    }
 }
