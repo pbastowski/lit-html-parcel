@@ -1,4 +1,4 @@
-import { observe, computed, dispose } from 'hyperactiv/dist'
+import { observe, computed, dispose } from 'store'
 
 const _store = {
     state: {
