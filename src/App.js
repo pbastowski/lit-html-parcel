@@ -49,7 +49,8 @@ export default () => html`
         `
     )}
     <hr />
-    <select .value=${bind(state, 'sel')}
+    <select
+        .value=${bind(state, 'sel')}
         ><option value="">don't know</option
         ><option value="a">A</option
         ><option value="b">B</option
