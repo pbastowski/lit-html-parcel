@@ -1,5 +1,5 @@
 import { html } from 'lit-html'
-import { observe } from 'hyperactiv/dist'
+import { observe } from 'store'
 import bind from './bind'
 
 const state = observe({
@@ -7,7 +7,8 @@ const state = observe({
     chk: undefined,
     chk2: '3',
     chk3: [],
-    rad: 'c'
+    rad: 'c',
+    sel: 'c'
 })
 
 const style = html`
@@ -26,11 +27,7 @@ export default () => html`
     <p>Chose as many as you like:</p>
     ${['a', 'b', 'c', 'd'].map(
         s => html`
-            <input
-                type="checkbox"
-                value=${s}
-                .checked=${bind(state, 'chk3', { value: s })}
-            />
+            <input type="checkbox" value=${s} .checked=${bind(state, 'chk3')} />
         `
     )}
     <br />
@@ -52,13 +49,13 @@ export default () => html`
         `
     )}
     <hr />
+    <select .value=${bind(state, 'sel')}
+        ><option value="">don't know</option
+        ><option value="a">A</option
+        ><option value="b">B</option
+        ><option value="c">C</option
+        ><option value="d">D</option></select
+    >
+    <hr />
     <pre>${JSON.stringify(state, null, 4)}</pre>
 `
-// <input type="radio" .checked=${bind(state, 'rad')} value="b" />
-// <input type="radio" .checked=${bind(state, 'rad')} value="c" />
-// <input type="radio" .checked=${bind(state, 'rad')} value="d" />
-
-// <input type="checkbox" .checked=${bind(state, 'chk3')} value="a" />
-// <input type="checkbox" .checked=${bind(state, 'chk3')} value="b" />
-// <input type="checkbox" .checked=${bind(state, 'chk3')} value="c" />
-// <input type="checkbox" .checked=${bind(state, 'chk3')} value="d" />
