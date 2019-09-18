@@ -22,7 +22,8 @@ export const bind = directive(
             // as part.setValue does not work in the first instance.
             queueMicrotask(() => {
                 value = context[name] === el.value
-                el.checked = value
+                part.setValue(value)
+                part.commit()
             })
         } else {
             if (checkbox) {
