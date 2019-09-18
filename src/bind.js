@@ -16,20 +16,28 @@ export const bind = directive(
         let value
         if (radio) {
             // radios are always mutually exclusive
-            value = context[name] === el.value
-        } else if (checkbox) {
-            value = arrayBinding
-                ? // arrays hold multiple choices
-                  context[name].includes(el.value)
-                : // otherwise checkboxes are mutually exclusive
-                  context[name] === el.value
+            // and their "value" needs to be read in the next tick,
+            // otherwise they will have the value of "on".
+            // radios also have to have "checked" set directly,
+            // as part.setValue does not work in the first instance.
+            queueMicrotask(() => {
+                value = context[name] === el.value
+                el.checked = value
+            })
         } else {
-            // text/number inputs are always just values, as typed
-            // by the user and passed in with .value
-            value = context[name]
+            if (checkbox) {
+                value = arrayBinding
+                    ? // arrays hold multiple choices
+                      context[name].includes(el.value)
+                    : // otherwise checkboxes are mutually exclusive
+                      context[name] === el.value
+            } else {
+                // text/number inputs are always just values, as typed
+                // by the user and passed in with .value
+                value = context[name]
+            }
+            part.setValue(value)
         }
-        part.setValue(value)
-
         // Add an event handler to set the value of the binding
         if (!cache.has(el)) {
             let _event =
