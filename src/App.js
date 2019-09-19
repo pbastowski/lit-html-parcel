@@ -2,8 +2,10 @@ import { html } from 'lit-html'
 import { observe } from 'store'
 import bind from './bind'
 
+import store from './store'
+
 const state = observe({
-    text: 'World',
+    text: 'test',
     chk1: undefined,
     chk2: '3',
     chk3: [],
@@ -13,25 +15,32 @@ const state = observe({
 
 const style = html`
     <style>
-        h1 {
+        h2 {
             color: blue;
         }
     </style>
 `
 
-export default () => html`
+export default app => html`
     ${style}
-    <h1>Hello ${state.text}...</h1>
-    <p>
+    <h2>This is a lit-html reactive app</h2>
+
+    <h4>
         Binding a text input will automatically add an event handler that syncs
         the entered value back to the model.
-    </p>
-    Enter some text: <input .value=${bind(state, 'text')} />
-    <br />
-    <p>
+    </h4>
+    Enter some text <input .value=${bind(state, 'text')} /> and see how the text
+    below updates.
+    <pre>state.text: ${state.text}</pre>
+
+    <h4>Show prop "abc" set in index.html</h4>
+    <pre>store.abc: ${JSON.stringify(store.state.abc, null, 4)}</pre>
+    <pre>this.abc: ${JSON.stringify(store.state.abc, null, 4)}</pre>
+
+    <h4>
         Checkboxes bound to the same array will add their value to the bound
         array when checked and remove it when unchecked.
-    </p>
+    </h4>
     Chose as many as you like:
     ${['a', 'b', 'c', 'd'].map(
         s => html`
@@ -39,8 +48,7 @@ export default () => html`
         `
     )}
 
-    <br />
-    <p>Checkboxes with the same binding are mutually exclusive:</p>
+    <h4>Checkboxes with the same binding are mutually exclusive:</h4>
     chk1:
     <input type="checkbox" .checked=${bind(state, 'chk1')} value="111" />
     <input type="checkbox" .checked=${bind(state, 'chk1')} value="2222" />
@@ -49,12 +57,11 @@ export default () => html`
     <input type="checkbox" .checked=${bind(state, 'chk2')} value="3" />
     <input type="checkbox" .checked=${bind(state, 'chk2')} value="444" />
 
-    <br />
-    <p>
+    <h4>
         All radios with the same binding are mutually exclusive. It is also
         possible to select none by specifying the option
         <code>{ allowUnset: true }</code>:
-    </p>
+    </h4>
     Choose one or none:
     ${['a', 'b', 'c', 'd'].map(
         s => html`
@@ -66,6 +73,12 @@ export default () => html`
         `
     )}
     <br /><br />
+
+    <h4>
+        Bind selects to their value prop. Then assign each option a distinct
+        value prop. When the user selects an option the select's bound value
+        will be updated.
+    </h4>
     Select one:
     <select .value=${bind(state, 'sel')}
         ><option value="">don't know</option

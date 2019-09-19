@@ -10,7 +10,17 @@
         <title>lit-01</title>
     </head>
     <body>
-        <lit-02 value="testing" onclick="clickHandler(event)"></lit-02>
+        <p>This is index.html - no frameworks here</p>
+        <button onclick="document.querySelector('lit-02').abc = 'lalala'">
+            abc = 'lalala'
+        </button>
+        <button
+            onclick="document.querySelector('lit-02').abc = {text: 'an object'}"
+        >
+            abc = {text: 'an object'}
+        </button>
+        <hr />
+        <lit-02 abc="testing 123" onclick="clickHandler(event)"></lit-02>
         <script>
             console.clear()
 
