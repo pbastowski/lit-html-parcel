@@ -4,7 +4,7 @@ import bind from './bind'
 
 const state = observe({
     text: 'World',
-    chk: undefined,
+    chk1: undefined,
     chk2: '3',
     chk3: [],
     rad: 'c',
@@ -22,23 +22,40 @@ const style = html`
 export default () => html`
     ${style}
     <h1>Hello ${state.text}...</h1>
-    <input .value=${bind(state, 'text')} />
+    <p>
+        Binding a text input will automatically add an event handler that syncs
+        the entered value back to the model.
+    </p>
+    Enter some text: <input .value=${bind(state, 'text')} />
     <br />
-    <p>Chose as many as you like:</p>
+    <p>
+        Checkboxes bound to the same array will add their value to the bound
+        array when checked and remove it when unchecked.
+    </p>
+    Chose as many as you like:
     ${['a', 'b', 'c', 'd'].map(
         s => html`
             <input type="checkbox" value=${s} .checked=${bind(state, 'chk3')} />
         `
     )}
-    <br />
-    <p>checkboxes with the same binding are mutually exclusive:</p>
 
-    <input type="checkbox" .checked=${bind(state, 'chk')} value="111" />
-    <input type="checkbox" .checked=${bind(state, 'chk')} value="2222" />
+    <br />
+    <p>Checkboxes with the same binding are mutually exclusive:</p>
+    chk1:
+    <input type="checkbox" .checked=${bind(state, 'chk1')} value="111" />
+    <input type="checkbox" .checked=${bind(state, 'chk1')} value="2222" />
+    <br />
+    chk2:
     <input type="checkbox" .checked=${bind(state, 'chk2')} value="3" />
     <input type="checkbox" .checked=${bind(state, 'chk2')} value="444" />
+
     <br />
-    <p>All radios with the same binding are mutually exclusive:</p>
+    <p>
+        All radios with the same binding are mutually exclusive. It is also
+        possible to select none by specifying the option
+        <code>{ allowUnset: true }</code>:
+    </p>
+    Choose one or none:
     ${['a', 'b', 'c', 'd'].map(
         s => html`
             <input
@@ -48,9 +65,9 @@ export default () => html`
             />
         `
     )}
-    <hr />
-    <select
-        .value=${bind(state, 'sel')}
+    <br /><br />
+    Select one:
+    <select .value=${bind(state, 'sel')}
         ><option value="">don't know</option
         ><option value="a">A</option
         ><option value="b">B</option
