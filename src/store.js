@@ -2,6 +2,7 @@ import { observe, computed, dispose } from 'store'
 
 const _store = {
     state: {
+        abc: 'nothing here',
         todos: [
             { id: 0, title: 'taks one', done: false },
             { id: 1, title: 'taks two', done: false },
