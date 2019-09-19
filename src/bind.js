@@ -1,6 +1,7 @@
 import { directive, EventPart } from 'lit-html'
 
 const cache = new WeakMap()
+const queue = window.queueMicrotask || window.setTimeout
 
 export const bind = directive(
     (context, name, { event, allowUnset = false } = {}) => part => {
@@ -15,14 +16,14 @@ export const bind = directive(
         // Always set the prop value based on the passed in value
         let value
         if (radio) {
-            // radios are always mutually exclusive
+            // radios are always mutually exclusive.
             // and their "value" needs to be read in the next tick,
             // otherwise they will have the value of "on".
-            // radios also have to have "checked" set directly,
-            // as part.setValue does not work in the first instance.
-            queueMicrotask(() => {
+            queue(() => {
                 value = context[name] === el.value
                 part.setValue(value)
+                // We need to commit the change, because the
+                // update is asynchronous (queued).
                 part.commit()
             })
         } else {
@@ -41,10 +42,10 @@ export const bind = directive(
         }
         // Add an event handler to set the value of the binding
         if (!cache.has(el)) {
-            let _event =
+            const _event =
                 event ||
                 ((radio && 'click') || (checkbox && 'change') || 'input')
-            let _value = 'value'
+            const _value = 'value'
 
             cache.set(el, _event)
 
