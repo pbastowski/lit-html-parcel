@@ -1,6 +1,6 @@
 import { LitElement } from 'lit-element'
 import { render } from 'lit-html'
-import { computed, dispose } from 'store'
+import { computed, dispose } from 'hyperactiv/dist'
 
 import store from './store'
 

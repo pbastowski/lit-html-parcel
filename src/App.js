@@ -1,5 +1,5 @@
 import { html } from 'lit-html'
-import { observe } from 'store'
+import { observe } from 'hyperactiv/dist'
 import bind from './bind'
 
 import store from './store'
